@@ -21,3 +21,16 @@ while true; do
         echo "Geben Sie eine gültige Zahl ein. Entweder meine Zahl + 1 oder + 2."
     fi
 done
+
+# Eingabe ist gültig, also wird der Spielstand angepasst
+spielstand=$eingabe
+
+# Prüfen ob das Spiel gewonnen wurde
+if [[ $spielstand -eq 20 ]]; then
+    echo "Sie haben das Spiel gewonnen."
+    exit 0
+fi
+
+# Computer wählt ideale Zahl
+# 03.04.24 gian: Evt. könnte man hier ein Switch Case einbauen, sodass der Computer \
+# bei jeder möglichkeit die richtige Zahl wählt. Oder Algorithmus finden, bei dem die Zahlen nicht hardcoded werden müssen.

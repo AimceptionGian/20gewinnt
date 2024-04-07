@@ -14,8 +14,8 @@ while true; do
     read -p "Geben Sie eine gültige Zahl ein: " eingabe
     if [[ $eingabe -gt 20 ]]; then
         echo "Ihre Eingabe ist zu gross."
-    elif [[ $eingabe -eq $(($spielstand + 1))]] \
-      || [[ $eingabe -eq $(($spielstand + 2))]]; then
+    elif [[ $eingabe -eq $(($spielstand + 1)) ]] \
+      || [[ $eingabe -eq $(($spielstand + 2)) ]]; then
         break
     else
         echo "Geben Sie eine gültige Zahl ein. Entweder meine Zahl + 1 oder + 2."

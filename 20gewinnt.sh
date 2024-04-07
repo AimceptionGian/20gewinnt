@@ -35,3 +35,11 @@ fi
 # 03.04.24 gian: Evt. könnte man hier ein Switch Case einbauen, sodass der Computer \
 # bei jeder möglichkeit die richtige Zahl wählt. Oder Algorithmus finden, bei dem die Zahlen nicht hardcoded werden müssen.
 # 03.04.24 gian: 3er Reihe -1, dann gewinnt man immer
+if [[ $(((($spielstand + 1) % 3) - 1)) -eq 1 ]]; then
+    spielstand=$(($spielstand + 1))
+elif [[ $(((($spielstand + 2) % 3) - 1)) -eq 1 ]]; then
+    spielstand=$(($spielstand + 2))
+else
+    spielstand=$(($spielstand + $[RANDOM % 2] + 1))
+fi
+echo "$spielstand"

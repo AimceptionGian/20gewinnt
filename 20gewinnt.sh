@@ -31,8 +31,13 @@ if [[ $spielstand -eq 20 ]]; then
     exit 0
 fi
 
+# Prüfen ob der Computer das Spiel gewinnen kann
+if [[ $spielstand -gt 17 ]]; then
+    spielstand=20
+    echo "$spielstand \n Der Computer hat das Spiel gewonnen"
+    exit 1
 # Computer wählt ideale Zahl
-if [[ $(((($spielstand + 1) % 3) - 1)) -eq 1 ]]; then
+elif [[ $(((($spielstand + 1) % 3) - 1)) -eq 1 ]]; then
     spielstand=$(($spielstand + 1))
 elif [[ $(((($spielstand + 2) % 3) - 1)) -eq 1 ]]; then
     spielstand=$(($spielstand + 2))

@@ -7,7 +7,8 @@
 
 # Spiel beginnt mit 1
 spielstand=1
-echo "Der Computer beginnt das Spiel mit $spielstand."
+echo "Der Computer beginnt das Spiel." 
+echo "$spielstand"
 
 # Endlosschleife
 while true; do
@@ -21,7 +22,7 @@ while true; do
         || [[ $eingabe -eq $(($spielstand + 2)) ]]; then
             break
         else
-            echo "Geben Sie eine gültige Zahl ein. Entweder meine Zahl + 1 oder + 2."
+            echo "Geben Sie eine gültige Zahl ein. Entweder die Zahl des Computers + 1 oder + 2."
         fi
     done
 
@@ -49,5 +50,4 @@ while true; do
         spielstand=$(($spielstand + $[RANDOM % 2] + 1))
     fi
     echo "$spielstand"
-
 done

@@ -13,7 +13,7 @@ White="\033[37;40m"
 
 # Spiel beginnt mit 1
 spielstand=1
-echo "Der Computer beginnt das Spiel." 
+echo "Der Computer beginnt das Spiel."
 echo -e "${Blue}$spielstand${White}"
 
 # Endlosschleife
@@ -23,7 +23,7 @@ while true; do
     while true; do
         read -p "Geben Sie eine gültige Zahl ein: " eingabe
         if [[ $eingabe -gt 20 ]]; then
-            echo -e "${Red}Ihre Eingabe ist zu gross.${White}"
+            echo "Ihre Eingabe ist zu gross."
         elif [[ $eingabe -eq $(($spielstand + 1)) ]] \
         || [[ $eingabe -eq $(($spielstand + 2)) ]]; then
             break
@@ -37,14 +37,15 @@ while true; do
 
     # Prüfen ob das Spiel gewonnen wurde
     if [[ $spielstand -eq 20 ]]; then
-        echo -e "${BlueBlinking}Sie haben das Spiel gewonnen.${White}"
-        exit 0
+        echo -e "${BlueBlinking}Sie haben das Spiel gewonnen.\033[0m"
+	feuerwerk
+	exit 0
     fi
 
     # Prüfen ob der Computer das Spiel gewinnen kann
     if [[ $spielstand -gt 17 ]]; then
         spielstand=20
-        echo -e "${Blue}$spielstand${White}" 
+        echo -e "${Blue}$spielstand${White}"
         echo "Der Computer hat das Spiel gewonnen"
         exit 1
     # Computer wählt ideale Zahl
@@ -57,12 +58,32 @@ while true; do
     fi
     echo -e "${Blue}$spielstand${White}"
 
-    feuerwerk () {
-        for ((i = 0; i < 10; i++)); do
-            echo -en "\033[${i}A"
-            echo -en "\033[93;49m*${White}"
-            sleep 1
-            echo -en "\033[2K"
+feuerwerk () {
+	echo -e "\033[2J"
+	tput cup 40 70
+	for ((i = 0; i < 20; i++)); do
+		if [[ $i -le 10 ]]; then
+			tput cuu 2
+			drawPixel $i
+		else
+			tput cud 2
+			drawPixel $i
+		fi
         done
-    }
+	clear
+}
+
+drawPixel () {
+	#Parameter definieren
+	i=$1
+
+	tput setaf 3; echo -n "*"; tput sgr0
+	tput sc
+	#Move Cursor
+	echo -en "\033[$((${i} + ${i}))D"
+	tput setaf 1; echo -n "*"; tput sgr0
+	tput rc
+	sleep 0.1
+	echo -en "\033[2K"
+}
 done

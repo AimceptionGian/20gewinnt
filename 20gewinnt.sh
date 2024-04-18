@@ -56,4 +56,13 @@ while true; do
         spielstand=$(($spielstand + $[RANDOM % 2] + 1))
     fi
     echo -e "${Blue}$spielstand${White}"
+
+    feuerwerk () {
+        for ((i = 0; i < 10; i++)); do
+            echo -en "\033[${i}A"
+            echo -en "\033[93;49m*${White}"
+            sleep 1
+            echo -en "\033[2K"
+        done
+    }
 done

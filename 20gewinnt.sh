@@ -76,14 +76,32 @@ feuerwerk () {
 drawPixel () {
 	#Parameter definieren
 	i=$1
-
-	tput setaf 3; echo -n "*"; tput sgr0
-	tput sc
-	#Move Cursor
-	echo -en "\033[$((${i} + ${i}))D"
-	tput setaf 1; echo -n "*"; tput sgr0
-	tput rc
+	yellowPixel 5 $i
+	redPixel 5 $i
 	sleep 0.1
-	echo -en "\033[2K"
+	echo -en "\033[2J"
+	tput rc
+}
+
+yellowPixel () {
+	i=$2
+	for ((j=$1; j > 0; j--)); do
+		tput sc
+		echo -en "\033[$(($[RANDOM % 2] + 1))D"
+		tput cuu $(($[RANDOM % 2] + 1))
+		tput setaf 3; echo -n "*"; tput sgr0
+		tput rc
+	done
+}
+
+redPixel () {
+	i=$2
+	for ((j=$1; j > 0; j--)); do
+		tput sc
+		echo -en "\033[$(((${i} + ${j}) + ${i}))D"
+		tput cuu $(($[RANDOM % 2] + 1))
+		tput setaf 1; echo -n "*"; tput sgr0
+		tput rc
+	done
 }
 done

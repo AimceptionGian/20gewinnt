@@ -58,6 +58,7 @@ while true; do
     fi
     echo -e "${Blue}$spielstand${White}"
 
+# Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {
 	echo -e "\033[2J"
 	tput cup 40 70
@@ -73,34 +74,63 @@ feuerwerk () {
 	clear
 }
 
+# Funktion um * zu zeichen und wieder zu löschen
 drawPixel () {
-	#Parameter definieren
+	# Parameter definieren
 	i=$1
+
+    # Cursor Position speichern
+    tput sc
+
+    # Funktionen aufrufen, 5 Partikel und das i von Feuerwerk mitgeben
 	yellowPixel 5 $i
 	redPixel 5 $i
+
 	sleep 0.1
+
+    # Alles auf dem Screen löschen
 	echo -en "\033[2J"
+
+    # Cursor Position laden
 	tput rc
 }
 
 yellowPixel () {
 	i=$2
+
+    # For Loop um gelbe * an "zufälliger" Stelle zu zeichnen
 	for ((j=$1; j > 0; j--)); do
 		tput sc
+
+        # Cursor "zufällig" nach Links bewegen
 		echo -en "\033[$(($[RANDOM % 2] + 1))D"
+
+        # Cursor "zufällig" nach oben bewegen
 		tput cuu $(($[RANDOM % 2] + 1))
+
+        # Gelber * zeichnen
 		tput setaf 3; echo -n "*"; tput sgr0
+        
 		tput rc
 	done
 }
 
 redPixel () {
 	i=$2
+
+    # For Loop um rote * an "zufälliger" Stelle zu zeichnen 
 	for ((j=$1; j > 0; j--)); do
 		tput sc
+
+        # Cursor immer weiter von Ursprungsposition nach Links bewegen
 		echo -en "\033[$(((${i} + ${j}) + ${i}))D"
+
+        # Cursor "zufällig" nach oben bewegen
 		tput cuu $(($[RANDOM % 2] + 1))
+
+        # Roter * zeichnen
 		tput setaf 1; echo -n "*"; tput sgr0
+
 		tput rc
 	done
 }

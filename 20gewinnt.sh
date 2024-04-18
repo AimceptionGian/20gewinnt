@@ -5,6 +5,12 @@
 #author: Gian Oechslin
 #usage: -
 
+# Farben definieren
+Blue="\033[34;40m"
+BlueBlinking="\033[34;5m"
+Red="\033[31;40m"
+White="\033[37;40m"
+
 # Spiel beginnt mit 1
 spielstand=1
 echo "Der Computer beginnt das Spiel." 

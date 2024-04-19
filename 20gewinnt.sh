@@ -38,8 +38,8 @@ while true; do
     # Prüfen ob das Spiel gewonnen wurde
     if [[ $spielstand -eq 20 ]]; then
         echo -e "${BlueBlinking}Sie haben das Spiel gewonnen.\033[0m"
-	feuerwerk
-	exit 0
+	    feuerwerk
+	    exit 0
     fi
 
     # Prüfen ob der Computer das Spiel gewinnen kann
@@ -60,59 +60,45 @@ while true; do
 
 # Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {
+    width=$(tput cols)
+    height=$(tput lines)
+
+    row=$(($height / 2))
+    column=$(($width / 2))
+
 	echo -e "\033[2J"
-	tput cup 40 70
+
+	tput cup $row $column
+
 	for ((i = 0; i < 20; i++)); do
-		if [[ $i -le 10 ]]; then
-			tput cuu 2
-			drawPixel $i
-		else
-			tput cud 2
-			drawPixel $i
-		fi
-        done
+		drawPixel 3 $(($row - $i)) $column 
+    done
 	clear
 }
 
-# Funktion um * zu zeichen und wieder zu löschen
 drawPixel () {
-	# Parameter definieren
-	i=$1
+    # Parameter definieren
+    # yellow = 3, red = 1
+    color=$1
+    row=$2
+    column=$3
 
     # Cursor Position speichern
-    tput sc
+	tput sc
 
-    # Funktionen aufrufen, 5 Partikel und das i von Feuerwerk mitgeben
-	pixel 5 $i 3
-	pixel 5 $i 1
+    # Cursor Position setzen
+    tput cup $row $column
 
-	sleep 0.1
+    # * zeichnen
+	tput setaf $color; echo -n "*"; tput sgr0
+
+    # 0.1s warten
+    sleep 0.1
 
     # Alles auf dem Screen löschen
 	echo -en "\033[2J"
 
     # Cursor Position laden
 	tput rc
-}
-
-pixel () {
-    color=$3
-	i=$2
-
-    # For Loop um gelbe * an "zufälliger" Stelle zu zeichnen
-	for ((j=$1; j > 0; j--)); do
-		tput sc
-
-        # Cursor "zufällig" nach Links bewegen
-		echo -en "\033[$(($[RANDOM % 2] + 1))D"
-
-        # Cursor "zufällig" nach oben bewegen
-		tput cuu $(($[RANDOM % 2] + 1))
-
-        # Gelber * zeichnen
-		tput setaf $color; echo -n "*"; tput sgr0
-
-		tput rc
-	done
 }
 done

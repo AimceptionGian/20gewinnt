@@ -16,6 +16,76 @@ spielstand=1
 echo "Der Computer beginnt das Spiel."
 echo -e "${Blue}$spielstand${White}"
 
+# Funktion um ein animiertes Feuerwerk zu zeigen
+feuerwerk () {
+    width=$(tput cols)
+    height=$(tput lines)
+
+    row=$(($height - 1))
+    column=$(($width / 2))
+
+	echo -e "\033[2J"
+
+	tput cup $row $column
+
+	for ((i = 0; i < 10; i++)); do
+		row=$(($row - 2))
+		drawPixel 3 $row $column
+
+        # 0.1s warten
+        sleep 0.1
+
+        # Alles auf dem Screen löschen
+	    echo -en "\033[2J"
+	done
+    for ((i = 0; i < 10; i++)); do
+        for ((j = 0; j < 4; j++)); do
+            if [[ $j -eq 0 ]]; then
+                currRow=$(($row - $i))
+                currColumn=$column
+            elif [[ $j -eq 1 ]]; then
+                currRow=$row
+                currColumn=$(($column + $i))
+            elif [[ $j -eq 2 ]]; then
+                currRow=$(($row + $i))
+                currColumn=$column
+            elif [[ $j -eq 3 ]]; then
+                currRow=$row
+                currColumn=$(($column - $i))
+            fi
+            drawPixel 1 $currRow $currColumn
+        done
+
+        # 0.1s warten
+        sleep 0.1
+        
+        # Alles auf dem Screen löschen
+	    echo -en "\033[2J"
+    done
+	clear
+}
+
+# Funktion um ein * an einer bestimmten Stelle zu zeichnen
+drawPixel () {
+    # Parameter definieren
+    # yellow = 3, red = 1
+    color=$1
+    x=$2
+    y=$3
+
+    # Cursor Position speichern
+	tput sc
+
+    # Cursor Position setzen
+    tput cup $x $y
+
+    # * zeichnen
+	tput setaf $color; echo -n "*"; tput sgr0
+
+    # Cursor Position laden
+	tput rc
+}
+
 # Endlosschleife
 while true; do
 
@@ -57,73 +127,4 @@ while true; do
         spielstand=$(($spielstand + $[RANDOM % 2] + 1))
     fi
     echo -e "${Blue}$spielstand${White}"
-
-# Funktion um ein animiertes Feuerwerk zu zeigen
-feuerwerk () {
-    width=$(tput cols)
-    height=$(tput lines)
-
-    row=$(($height - 1))
-    column=$(($width / 2))
-
-	echo -e "\033[2J"
-
-	tput cup $row $column
-
-	for ((i = 0; i < 10; i++)); do
-		row=$(($row - 2))
-		drawPixel 3 $row $column
-
-        # 0.1s warten
-        sleep 0.1
-
-        # Alles auf dem Screen löschen
-	    echo -en "\033[2J"
-	done
-    for ((i = 0; i < 10; i++)); do
-        for ((j = 0; j < 4; j++)); do
-            if [[ $j -eq 0 ]]; then
-                currRow=$(($row + $i))
-                currColumn=$column
-            elif [[ $j -eq 1 ]]; then
-                currRow=$row
-                currColumn=$(($column + $i))
-            elif [[ $j -eq 2 ]]; then
-                currRow=$(($row - $i))
-                currColumn=$column
-            elif [[ $j -eq 3 ]]; then
-                currRow=$row
-                currColumn=$(($column - $i))
-            fi
-            drawPixel 1 $currRow $currColumn
-        done
-
-        # 0.1s warten
-        sleep 0.1
-        
-        # Alles auf dem Screen löschen
-	    echo -en "\033[2J"
-    done
-	clear
-}
-
-drawPixel () {
-    # Parameter definieren
-    # yellow = 3, red = 1
-    color=$1
-    row=$2
-    column=$3
-
-    # Cursor Position speichern
-	tput sc
-
-    # Cursor Position setzen
-    tput cup $row $column
-
-    # * zeichnen
-	tput setaf $color; echo -n "*"; tput sgr0
-
-    # Cursor Position laden
-	tput rc
-}
 done

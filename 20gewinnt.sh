@@ -11,26 +11,27 @@ BlueBlinking="\033[34;5m"
 Red="\033[31;40m"
 White="\033[37;40m"
 
-# Spiel beginnt mit 1
-spielstand=1
-echo "Der Computer beginnt das Spiel."
-echo -e "${Blue}$spielstand${White}"
+# Variablen definieren
+width=$(tput cols)
+height=$(tput lines)
+
+row=$(($height - 1))
+column=$(($width / 2))
 
 # Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {
-    width=$(tput cols)
-    height=$(tput lines)
+    offset=$1
 
-    row=$(($height - 1))
-    column=$(($width / 2))
+    startx=$row
+    starty=$(($column + offset))
 
-	echo -e "\033[2J"
-
-	tput cup $row $column
+    echo -e "\033[2J"
+	
+    tput cup $startx $starty
 
 	for ((i = 0; i < 10; i++)); do
-		row=$(($row - 2))
-		drawPixel 3 $row $column
+		startx=$(($startx - 2))
+		drawPixel 3 $startx $starty
 
         # 0.1s warten
         sleep 0.1
@@ -41,17 +42,17 @@ feuerwerk () {
     for ((i = 0; i < 10; i++)); do
         for ((j = 0; j < 4; j++)); do
             if [[ $j -eq 0 ]]; then
-                currRow=$(($row - $i))
-                currColumn=$column
+                currRow=$(($startx - $i))
+                currColumn=$starty
             elif [[ $j -eq 1 ]]; then
-                currRow=$row
-                currColumn=$(($column + $i))
+                currRow=$startx
+                currColumn=$(($starty + $i))
             elif [[ $j -eq 2 ]]; then
-                currRow=$(($row + $i))
-                currColumn=$column
+                currRow=$(($startx + $i))
+                currColumn=$starty
             elif [[ $j -eq 3 ]]; then
-                currRow=$row
-                currColumn=$(($column - $i))
+                currRow=$startx
+                currColumn=$(($starty - $i))
             fi
             drawPixel 1 $currRow $currColumn
         done
@@ -86,6 +87,11 @@ drawPixel () {
 	tput rc
 }
 
+# Spiel beginnt mit 1
+spielstand=1
+echo "Der Computer beginnt das Spiel."
+echo -e "${Blue}$spielstand${White}"
+
 # Endlosschleife
 while true; do
 
@@ -108,7 +114,9 @@ while true; do
     # Prüfen ob das Spiel gewonnen wurde
     if [[ $spielstand -eq 20 ]]; then
         echo -e "${BlueBlinking}Sie haben das Spiel gewonnen.\033[0m"
-	    feuerwerk
+	    feuerwerk 0
+        feuerwerk 100
+        feuerwerk -100
 	    exit 0
     fi
 

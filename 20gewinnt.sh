@@ -83,8 +83,8 @@ drawPixel () {
     tput sc
 
     # Funktionen aufrufen, 5 Partikel und das i von Feuerwerk mitgeben
-	yellowPixel 5 $i
-	redPixel 5 $i
+	pixel 5 $i 3
+	pixel 5 $i 1
 
 	sleep 0.1
 
@@ -95,7 +95,8 @@ drawPixel () {
 	tput rc
 }
 
-yellowPixel () {
+pixel () {
+    color=$3
 	i=$2
 
     # For Loop um gelbe * an "zufälliger" Stelle zu zeichnen
@@ -109,27 +110,7 @@ yellowPixel () {
 		tput cuu $(($[RANDOM % 2] + 1))
 
         # Gelber * zeichnen
-		tput setaf 3; echo -n "*"; tput sgr0
-        
-		tput rc
-	done
-}
-
-redPixel () {
-	i=$2
-
-    # For Loop um rote * an "zufälliger" Stelle zu zeichnen 
-	for ((j=$1; j > 0; j--)); do
-		tput sc
-
-        # Cursor immer weiter von Ursprungsposition nach Links bewegen
-		echo -en "\033[$(((${i} + ${j}) + ${i}))D"
-
-        # Cursor "zufällig" nach oben bewegen
-		tput cuu $(($[RANDOM % 2] + 1))
-
-        # Roter * zeichnen
-		tput setaf 1; echo -n "*"; tput sgr0
+		tput setaf $color; echo -n "*"; tput sgr0
 
 		tput rc
 	done

@@ -63,15 +63,46 @@ feuerwerk () {
     width=$(tput cols)
     height=$(tput lines)
 
-    row=$(($height / 2))
+    row=$(($height - 1))
     column=$(($width / 2))
 
 	echo -e "\033[2J"
 
 	tput cup $row $column
 
-	for ((i = 0; i < 20; i++)); do
-		drawPixel 3 $(($row - $i)) $column 
+	for ((i = 0; i < 10; i++)); do
+		row=$(($row - 2))
+		drawPixel 3 $row $column
+
+        # 0.1s warten
+        sleep 0.1
+
+        # Alles auf dem Screen löschen
+	    echo -en "\033[2J"
+	done
+    for ((i = 0; i < 10; i++)); do
+        for ((j = 0; j < 4; j++)); do
+            if [[ $j -eq 0 ]]; then
+                currRow=$(($row + $i))
+                currColumn=$column
+            elif [[ $j -eq 1 ]]; then
+                currRow=$row
+                currColumn=$(($column + $i))
+            elif [[ $j -eq 2 ]]; then
+                currRow=$(($row - $i))
+                currColumn=$column
+            elif [[ $j -eq 3 ]]; then
+                currRow=$row
+                currColumn=$(($column - $i))
+            fi
+            drawPixel 1 $currRow $currColumn
+        done
+
+        # 0.1s warten
+        sleep 0.1
+        
+        # Alles auf dem Screen löschen
+	    echo -en "\033[2J"
     done
 	clear
 }
@@ -91,12 +122,6 @@ drawPixel () {
 
     # * zeichnen
 	tput setaf $color; echo -n "*"; tput sgr0
-
-    # 0.1s warten
-    sleep 0.1
-
-    # Alles auf dem Screen löschen
-	echo -en "\033[2J"
 
     # Cursor Position laden
 	tput rc

@@ -12,8 +12,8 @@ Red="\033[31;40m"
 White="\033[37;40m"
 
 # Variablen definieren
-width=$(tput lines)
-height=$(tput cols)
+width=$(tput cols)
+height=$(tput lines)
 
 row=$(($height - 1))
 column=$(($width / 2))
@@ -31,7 +31,7 @@ feuerwerk () {
 
 	for ((i = 0; i < 10; i++)); do
 		starty=$(($starty - 2))
-		drawPixel 3 $startx $starty
+		drawPixel 3 $starty $startx
 
         # 0.1s warten
         sleep 0.1

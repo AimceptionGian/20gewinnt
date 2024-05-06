@@ -53,39 +53,7 @@ feuerwerk () {
         fi
 	done
     for ((i = 0; i < 10; i++)); do
-        for ((k = $count; k > 0; k--)); do
-            for ((j = 0; j < 8; j++)); do
-                if [[ $j -eq 0 ]]; then
-                    currColumn=$startx
-                    currRow=$(($starty - $i))
-                elif [[ $j -eq 1 ]]; then
-                    currColumn=$(($startx + $i))
-                    currRow=$(($starty - $i))
-                elif [[ $j -eq 2 ]]; then
-                    currColumn=$(($startx + $i))
-                    currRow=$starty
-                elif [[ $j -eq 3 ]]; then
-                    currColumn=$(($startx + $i))
-                    currRow=$(($starty + $i))
-                elif [[ $j -eq 4 ]]; then
-                    currColumn=$startx
-                    currRow=$(($starty + $i))
-                elif [[ $j -eq 5 ]]; then
-                    currColumn=$(($startx - $i))
-                    currRow=$(($starty + $i))
-                elif [[ $j -eq 6 ]]; then
-                    currColumn=$(($startx - $i))
-                    currRow=$starty
-                elif [[ $j -eq 7 ]]; then
-                    currColumn=$(($startx - $i))
-                    currRow=$((starty - $i))
-                fi
-                drawPixel 1 $currRow $currColumn  
-            done
-            if [[ $count -gt 1 ]]; then
-                    startx=$(($startx + ($width / $count)))
-            fi
-        done
+        explosionFrame 3 $i
 
         if [[ $count -gt 1 ]]; then
             startx=$(($width / ($count + 1)))
@@ -123,43 +91,54 @@ drawPixel () {
 
 # Funktion um eine explosion mit * zu zeichnen
 explosionFrame () {
-    currFrame=$1
-    starty=$2
-    startx=$3
+    intensity=$1
+    frame=$2
+
+    currIntensity=$intensity
+    currFrame=$frame
 
     for ((k = $count; k > 0; k--)); do
-            for ((j = 0; j < 8; j++)); do
-                if [[ $j -eq 0 ]]; then
-                    currColumn=$startx
-                    currRow=$(($starty - $i))
-                elif [[ $j -eq 1 ]]; then
-                    currColumn=$(($startx + $i))
-                    currRow=$(($starty - $i))
-                elif [[ $j -eq 2 ]]; then
-                    currColumn=$(($startx + $i))
-                    currRow=$starty
-                elif [[ $j -eq 3 ]]; then
-                    currColumn=$(($startx + $i))
-                    currRow=$(($starty + $i))
-                elif [[ $j -eq 4 ]]; then
-                    currColumn=$startx
-                    currRow=$(($starty + $i))
-                elif [[ $j -eq 5 ]]; then
-                    currColumn=$(($startx - $i))
-                    currRow=$(($starty + $i))
-                elif [[ $j -eq 6 ]]; then
-                    currColumn=$(($startx - $i))
-                    currRow=$starty
-                elif [[ $j -eq 7 ]]; then
-                    currColumn=$(($startx - $i))
-                    currRow=$((starty - $i))
-                fi
-                drawPixel 1 $currRow $currColumn  
-            done
-            if [[ $count -gt 1 ]]; then
-                    startx=$(($startx + ($width / $count)))
+        for ((j = 0; j < 8; j++)); do
+            if [[ $j -eq 0 ]]; then
+                currColumn=$startx
+                currRow=$(($starty - $currFrame))
+            elif [[ $j -eq 1 ]]; then
+                currColumn=$(($startx + $currFrame))
+                currRow=$(($starty - $currFrame))
+            elif [[ $j -eq 2 ]]; then
+                currColumn=$(($startx + $currFrame))
+                currRow=$starty
+            elif [[ $j -eq 3 ]]; then
+                currColumn=$(($startx + $currFrame))
+                currRow=$(($starty + $currFrame))
+            elif [[ $j -eq 4 ]]; then
+                currColumn=$startx
+                currRow=$(($starty + $currFrame))
+            elif [[ $j -eq 5 ]]; then
+                currColumn=$(($startx - $currFrame))
+                currRow=$(($starty + $currFrame))
+            elif [[ $j -eq 6 ]]; then
+                currColumn=$(($startx - $currFrame))
+                currRow=$starty
+            elif [[ $j -eq 7 ]]; then
+                currColumn=$(($startx - $currFrame))
+                currRow=$((starty - $currFrame))
+            fi
+            drawPixel 1 $currRow $currColumn
+            if [[ $currIntensity -gt 1 && j -eq 7 ]]; then
+                j=0
+            fi
+            if [[ currFrame -gt 0 ]]; then
+                currIntensity=$(($currentIntensity - 1))
+                currFrame=$(($currFrame - 1))
             fi
         done
+        if [[ $count -gt 1 ]]; then
+            startx=$(($startx + ($width / $count)))
+        fi
+        currIntensity=$intensity
+        currFrame=$frame
+    done
 }
 
 # Spiel beginnt mit 1

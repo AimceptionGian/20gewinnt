@@ -42,29 +42,29 @@ feuerwerk () {
     for ((i = 0; i < 10; i++)); do
         for ((j = 0; j < 8; j++)); do
             if [[ $j -eq 0 ]]; then
-                currColumn=$startx
-                currRow=$(($starty - $i))
+                currRow=$startx
+                currColumn=$(($starty - $i))
             elif [[ $j -eq 1 ]]; then
-                currColumn=$(($startx + $i))
-                currRow=$(($starty - $i))
+                currRow=$(($startx + $i))
+                currColumn=$(($starty - $i))
             elif [[ $j -eq 2 ]]; then
-                currColumn=$(($startx + $i))
-                currRow=$starty
+                currRow=$(($startx + $i))
+                currColumn=$starty
             elif [[ $j -eq 3 ]]; then
-                currColumn=$(($startx + $i))
-                currRow=$(($starty + $i))
+                currRow=$(($startx + $i))
+                currColumn=$(($starty + $i))
             elif [[ $j -eq 4 ]]; then
-                currColumn=$startx
-                currRow=$(($starty + $i))
+                currRow=$startx
+                currColumn=$(($starty + $i))
             elif [[ $j -eq 5 ]]; then
-                currColumn=$(($startx - $i))
-                currRow=$(($starty + $i))
+                currRow=$(($startx - $i))
+                currColumn=$(($starty + $i))
             elif [[ $j -eq 6 ]]; then
-                currColumn=$(($startx - $i))
-                currRow=$starty
+                currRow=$(($startx - $i))
+                currColumn=$starty
             elif [[ $j -eq 7 ]]; then
-                currColumn=$(($startx - $i))
-                currRow=$((starty - $i))
+                currRow=$(($startx - $i))
+                currColumn=$((starty - $i))
             fi
             drawPixel 1 $currColumn $currRow
         done

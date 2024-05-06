@@ -125,12 +125,12 @@ explosionFrame () {
                 currRow=$((starty - $currFrame))
             fi
             drawPixel 1 $currRow $currColumn
-            if [[ $currIntensity -gt 1 && j -eq 7 ]]; then
-                j=0
-            fi
             if [[ currFrame -gt 0 ]]; then
-                currIntensity=$(($currentIntensity - 1))
+                currIntensity=$(($currtIntensity - 1))
                 currFrame=$(($currFrame - 1))
+            fi
+            if [[ $currIntensity -gt 1 && $currFrame -gt 1 && j -eq 7 ]]; then
+                j=0
             fi
         done
         if [[ $count -gt 1 ]]; then

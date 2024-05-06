@@ -15,8 +15,8 @@ White="\033[37;40m"
 width=$(tput cols)
 height=$(tput lines)
 
-column=$(($height - 1))
-row=$(($width / 2))
+row=$(($height - 1))
+column=$(($width / 2))
 
 # Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {

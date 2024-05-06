@@ -82,10 +82,14 @@ feuerwerk () {
                 fi
                 drawPixel 1 $currRow $currColumn  
             done
-            if [[ $k -gt 1 ]]; then
+            if [[ $count -gt 1 ]]; then
                     startx=$(($startx + ($width / $count)))
             fi
         done
+
+        if [[ $count -gt 1 ]]; then
+            startx=$(($width / ($count + 1)))
+        fi        
 
         # 0.1s warten
         sleep 0.1

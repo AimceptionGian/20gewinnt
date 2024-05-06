@@ -100,25 +100,66 @@ feuerwerk () {
 	clear
 }
 
-# Funktion um ein * an einer bestimmten Stelle zu zeichnen
+# Funktion um einen * an einer bestimmten Stelle zu zeichnen
 drawPixel () {
     # Parameter definieren
     # yellow = 3, red = 1
     color=$1
-    x=$2
-    y=$3
+    y=$2
+    x=$3
 
     # Cursor Position speichern
 	tput sc
 
     # Cursor Position setzen
-    tput cup $x $y
+    tput cup $y $x
 
     # * zeichnen
 	tput setaf $color; echo -n "*"; tput sgr0
 
     # Cursor Position laden
 	tput rc
+}
+
+# Funktion um eine explosion mit * zu zeichnen
+explosionFrame () {
+    currFrame=$1
+    starty=$2
+    startx=$3
+
+    for ((k = $count; k > 0; k--)); do
+            for ((j = 0; j < 8; j++)); do
+                if [[ $j -eq 0 ]]; then
+                    currColumn=$startx
+                    currRow=$(($starty - $i))
+                elif [[ $j -eq 1 ]]; then
+                    currColumn=$(($startx + $i))
+                    currRow=$(($starty - $i))
+                elif [[ $j -eq 2 ]]; then
+                    currColumn=$(($startx + $i))
+                    currRow=$starty
+                elif [[ $j -eq 3 ]]; then
+                    currColumn=$(($startx + $i))
+                    currRow=$(($starty + $i))
+                elif [[ $j -eq 4 ]]; then
+                    currColumn=$startx
+                    currRow=$(($starty + $i))
+                elif [[ $j -eq 5 ]]; then
+                    currColumn=$(($startx - $i))
+                    currRow=$(($starty + $i))
+                elif [[ $j -eq 6 ]]; then
+                    currColumn=$(($startx - $i))
+                    currRow=$starty
+                elif [[ $j -eq 7 ]]; then
+                    currColumn=$(($startx - $i))
+                    currRow=$((starty - $i))
+                fi
+                drawPixel 1 $currRow $currColumn  
+            done
+            if [[ $count -gt 1 ]]; then
+                    startx=$(($startx + ($width / $count)))
+            fi
+        done
 }
 
 # Spiel beginnt mit 1

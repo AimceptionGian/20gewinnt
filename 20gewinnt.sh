@@ -21,16 +21,16 @@ column=$(($width / 2))
 # Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {
     offset=$1
-
-    startx=$row
-    starty=$(($column + offset))
+    
+    startx=$(($column + offset))
+    starty=$row
 
     echo -e "\033[2J"
 	
     tput cup $startx $starty
 
 	for ((i = 0; i < 10; i++)); do
-		startx=$(($startx - 2))
+		starty=$(($starty - 2))
 		drawPixel 3 $startx $starty
 
         # 0.1s warten
@@ -40,19 +40,31 @@ feuerwerk () {
 	    echo -en "\033[2J"
 	done
     for ((i = 0; i < 10; i++)); do
-        for ((j = 0; j < 4; j++)); do
+        for ((j = 0; j < 8; j++)); do
             if [[ $j -eq 0 ]]; then
-                currRow=$(($startx - $i))
-                currColumn=$starty
-            elif [[ $j -eq 1 ]]; then
                 currRow=$startx
-                currColumn=$(($starty + $i))
+                currColumn=$(($starty - $i))
+            elif [[ $j -eq 1 ]]; then
+                currRow=$(($startx + $i))
+                currColumn=$(($starty - $i))
             elif [[ $j -eq 2 ]]; then
                 currRow=$(($startx + $i))
                 currColumn=$starty
             elif [[ $j -eq 3 ]]; then
+                currRow=$(($startx + $i))
+                currColumn=$(($starty + $i))
+            elif [[ $j -eq 4 ]]; then
                 currRow=$startx
-                currColumn=$(($starty - $i))
+                currColumn=$(($starty + $i))
+            elif [[ $j -eq 5 ]]; then
+                currRow=$(($startx - $i))
+                currColumn=$(($starty + $i))
+            elif [[ $j -eq 6 ]]; then
+                currRow=$(($startx - $i))
+                currColumn=$starty
+            elif [[ $j -eq 7 ]]; then
+                currRow=$(($startx - $i))
+                currColumn=$((starty - $i))
             fi
             drawPixel 1 $currRow $currColumn
         done

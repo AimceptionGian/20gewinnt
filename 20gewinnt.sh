@@ -35,10 +35,10 @@ feuerwerk () {
 
 	for ((i = 0; i < 10; i++)); do
 		starty=$(($starty - 2))
-        for ((j = $count; j >= 0; j--)); do
+        for ((j = $count; j > 0; j--)); do
 		    drawPixel 3 $starty $startx
             if [[ $count -gt 1 ]]; then
-                startx=$(($startx + $startx))
+                startx=$(($startx + ($width / ($count + 1))))
             fi
         done
 
@@ -48,13 +48,11 @@ feuerwerk () {
         # Alles auf dem Screen löschen
 	    echo -en "\033[2J"
 
-        if [[ $count -eq 1 ]]; then
-            startx=$column
-        else
-            startx=$(($width / $count))
+        if [[ $count -gt 1 ]]; then
+            startx=$(($width / ($count + 1)))
         fi
 	done
-    for ((k = $count; k >= 0; k--)); do
+    for ((k = $count; k > 0; k--)); do
         for ((i = 0; i < 10; i++)); do
             for ((j = 0; j < 8; j++)); do
                 if [[ $j -eq 0 ]]; then
@@ -82,15 +80,10 @@ feuerwerk () {
                     currColumn=$(($startx - $i))
                     currRow=$((starty - $i))
                 fi
-                drawPixel 1 $currRow $currColumn
-                if [[ $count -gt 1 ]]; then
-                    startx=$(($startx + $startx))
-                fi
+                drawPixel 1 $currRow $currColumn  
             done
-            if [[ $count -eq 1 ]]; then
-                startx=$column
-            else
-                startx=$(($width / $count))
+            if [[ $count -gt 1 ]]; then
+                    startx=$(($startx + ($width / $count)))
             fi
         done
 

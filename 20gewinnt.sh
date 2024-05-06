@@ -15,8 +15,8 @@ White="\033[37;40m"
 width=$(tput cols)
 height=$(tput lines)
 
-row=$(($height - 1))
-column=$(($width / 2))
+column=$(($height - 1))
+row=$(($width / 2))
 
 # Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {
@@ -66,7 +66,7 @@ feuerwerk () {
                 currColumn=$(($startx - $i))
                 currRow=$((starty - $i))
             fi
-            drawPixel 1 $currRow $currColumn
+            drawPixel 1 $currColumn $currRow
         done
 
         # 0.1s warten

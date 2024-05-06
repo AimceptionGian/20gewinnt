@@ -86,7 +86,6 @@ feuerwerk () {
                     startx=$(($startx + ($width / $count)))
             fi
         done
-    done
 
         # 0.1s warten
         sleep 0.1

@@ -53,7 +53,7 @@ feuerwerk () {
         fi
 	done
     for ((i = 0; i < 10; i++)); do
-        for ((k = $count; k > 1; k--)); do
+        for ((k = $count; k > 0; k--)); do
             for ((j = 0; j < 8; j++)); do
                 if [[ $j -eq 0 ]]; then
                     currColumn=$startx

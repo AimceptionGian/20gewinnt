@@ -12,8 +12,8 @@ Red="\033[31;40m"
 White="\033[37;40m"
 
 # Variablen definieren
-width=$(tput cols)
-height=$(tput lines)
+width=$(tput lines)
+height=$(tput cols)
 
 row=$(($height - 1))
 column=$(($width / 2))

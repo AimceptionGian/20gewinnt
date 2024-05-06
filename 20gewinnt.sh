@@ -20,53 +20,78 @@ column=$(($width / 2))
 
 # Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {
-    offset=$1
+    count=$1
     
-    startx=$(($column + offset))
+    if [[ $count -eq 1 ]]; then
+        startx=$column
+    else
+        startx=$(($width / $count))
+    fi
     starty=$row
 
     echo -e "\033[2J"
 	
-    tput cup $startx $starty
+    tput cup $starty $startx
 
 	for ((i = 0; i < 10; i++)); do
 		starty=$(($starty - 2))
-		drawPixel 3 $starty $startx
+        for ((j = $count; j >= 0; j--)); do
+		    drawPixel 3 $starty $startx
+            if [[ $count -gt 1 ]]; then
+                startx=$(($startx + $startx))
+            fi
+        done
 
         # 0.1s warten
         sleep 0.1
 
         # Alles auf dem Screen löschen
 	    echo -en "\033[2J"
+
+        if [[ $count -eq 1 ]]; then
+            startx=$column
+        else
+            startx=$(($width / $count))
+        fi
 	done
-    for ((i = 0; i < 10; i++)); do
-        for ((j = 0; j < 8; j++)); do
-            if [[ $j -eq 0 ]]; then
-                currColumn=$startx
-                currRow=$(($starty - $i))
-            elif [[ $j -eq 1 ]]; then
-                currColumn=$(($startx + $i))
-                currRow=$(($starty - $i))
-            elif [[ $j -eq 2 ]]; then
-                currColumn=$(($startx + $i))
-                currRow=$starty
-            elif [[ $j -eq 3 ]]; then
-                currColumn=$(($startx + $i))
-                currRow=$(($starty + $i))
-            elif [[ $j -eq 4 ]]; then
-                currColumn=$startx
-                currRow=$(($starty + $i))
-            elif [[ $j -eq 5 ]]; then
-                currColumn=$(($startx - $i))
-                currRow=$(($starty + $i))
-            elif [[ $j -eq 6 ]]; then
-                currColumn=$(($startx - $i))
-                currRow=$starty
-            elif [[ $j -eq 7 ]]; then
-                currColumn=$(($startx - $i))
-                currRow=$((starty - $i))
+    for ((k = $count; k >= 0; k--)); do
+        for ((i = 0; i < 10; i++)); do
+            for ((j = 0; j < 8; j++)); do
+                if [[ $j -eq 0 ]]; then
+                    currColumn=$startx
+                    currRow=$(($starty - $i))
+                elif [[ $j -eq 1 ]]; then
+                    currColumn=$(($startx + $i))
+                    currRow=$(($starty - $i))
+                elif [[ $j -eq 2 ]]; then
+                    currColumn=$(($startx + $i))
+                    currRow=$starty
+                elif [[ $j -eq 3 ]]; then
+                    currColumn=$(($startx + $i))
+                    currRow=$(($starty + $i))
+                elif [[ $j -eq 4 ]]; then
+                    currColumn=$startx
+                    currRow=$(($starty + $i))
+                elif [[ $j -eq 5 ]]; then
+                    currColumn=$(($startx - $i))
+                    currRow=$(($starty + $i))
+                elif [[ $j -eq 6 ]]; then
+                    currColumn=$(($startx - $i))
+                    currRow=$starty
+                elif [[ $j -eq 7 ]]; then
+                    currColumn=$(($startx - $i))
+                    currRow=$((starty - $i))
+                fi
+                drawPixel 1 $currRow $currColumn
+                if [[ $count -gt 1 ]]; then
+                    startx=$(($startx + $startx))
+                fi
+            done
+            if [[ $count -eq 1 ]]; then
+                startx=$column
+            else
+                startx=$(($width / $count))
             fi
-            drawPixel 1 $currRow $currColumn
         done
 
         # 0.1s warten
@@ -126,9 +151,7 @@ while true; do
     # Prüfen ob das Spiel gewonnen wurde
     if [[ $spielstand -eq 20 ]]; then
         echo -e "${BlueBlinking}Sie haben das Spiel gewonnen.\033[0m"
-	    feuerwerk 0
-        feuerwerk 10
-        feuerwerk -10
+	    feuerwerk 3
 	    exit 0
     fi
 

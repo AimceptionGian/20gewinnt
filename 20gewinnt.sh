@@ -115,8 +115,8 @@ while true; do
     if [[ $spielstand -eq 20 ]]; then
         echo -e "${BlueBlinking}Sie haben das Spiel gewonnen.\033[0m"
 	    feuerwerk 0
-        feuerwerk 100
-        feuerwerk -100
+        feuerwerk 10
+        feuerwerk -10
 	    exit 0
     fi
 

@@ -54,12 +54,6 @@ feuerwerk () {
 	done
     for ((i = 0; i < 10; i++)); do
         explosionFrame 3 $i      
-
-        # 0.1s warten
-        sleep 0.1
-        
-        # Alles auf dem Screen löschen
-	    echo -en "\033[2J"
     done
 	clear
 }
@@ -133,10 +127,15 @@ explosionFrame () {
         done
         currIntensity=$intensity
         currFrame=$frame
-
         if [[ $count -gt 1 ]]; then
             startx=$(($width / ($count + 1)))
         fi
+
+        # 0.1s warten
+        sleep 0.1
+        
+        # Alles auf dem Screen löschen
+	    echo -en "\033[2J"
     done
 }
 

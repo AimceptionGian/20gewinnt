@@ -130,13 +130,13 @@ explosionFrame () {
         if [[ $count -gt 1 ]]; then
             startx=$(($width / ($count + 1)))
         fi
-
-        # 0.1s warten
-        sleep 0.1
-        
-        # Alles auf dem Screen löschen
-	    echo -en "\033[2J"
     done
+    
+    # 0.1s warten
+    sleep 0.1
+        
+    # Alles auf dem Screen löschen
+	echo -en "\033[2J"
 }
 
 # Spiel beginnt mit 1

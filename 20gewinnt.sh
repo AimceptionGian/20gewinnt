@@ -133,6 +133,10 @@ explosionFrame () {
         done
         currIntensity=$intensity
         currFrame=$frame
+
+        if [[ $count -gt 1 ]]; then
+            startx=$(($width / ($count + 1)))
+        fi
     done
 }
 

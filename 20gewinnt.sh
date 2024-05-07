@@ -118,17 +118,15 @@ explosionFrame () {
                 fi
                 drawPixel 1 $currRow $currColumn
             done
-            if [[ $currCount -gt 1 ]]; then
+            currIntensity=$(($currIntensity - 1))
+            currFrame=$(($currFrame - 1))
+            if [[ $currIntensity -eq 0 && $currCount -gt 1 ]]; then
                 startx=$(($startx + ($width / $count)))
                 currIntensity=$intensity
+                currFrame=$frame
                 currCount=$(($currCount - 1))
             fi
-            if [[ $currIntensity -gt 0 ]]; then
-                currIntensity=$(($currIntensity - 1))
-                currFrame=$(($currFrame - 1))
-            fi
         done
-        currFrame=$frame
         if [[ $count -gt 1 ]]; then
             startx=$(($width / ($count + 1)))
         fi

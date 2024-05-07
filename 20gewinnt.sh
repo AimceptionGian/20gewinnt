@@ -21,6 +21,7 @@ column=$(($width / 2))
 # Funktion um ein animiertes Feuerwerk zu zeigen
 feuerwerk () {
     count=$1
+    fireIntensity=$2
     
     if [[ $count -eq 1 ]]; then
         startx=$column
@@ -53,7 +54,7 @@ feuerwerk () {
         fi
 	done
     for ((i = 0; i < 10; i++)); do
-        explosionFrame 3 $i      
+        explosionFrame $fireIntensity $i      
     done
 	clear
 }
@@ -168,7 +169,7 @@ while true; do
     # Prüfen ob das Spiel gewonnen wurde
     if [[ $spielstand -eq 20 ]]; then
         echo -e "${BlueBlinking}Sie haben das Spiel gewonnen.\033[0m"
-	    feuerwerk 3
+	    feuerwerk 3 3
 	    exit 0
     fi
 

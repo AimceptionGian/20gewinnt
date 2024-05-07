@@ -98,44 +98,43 @@ explosionFrame () {
     currFrame=$frame
 
     for ((k = $count; k > 0; k--)); do
-        for ((j = 0; j < 8; j++)); do
-            if [[ $j -eq 0 ]]; then
-                currColumn=$startx
-                currRow=$(($starty - $currFrame))
-            elif [[ $j -eq 1 ]]; then
-                currColumn=$(($startx + $currFrame))
-                currRow=$(($starty - $currFrame))
-            elif [[ $j -eq 2 ]]; then
-                currColumn=$(($startx + $currFrame))
-                currRow=$starty
-            elif [[ $j -eq 3 ]]; then
-                currColumn=$(($startx + $currFrame))
-                currRow=$(($starty + $currFrame))
-            elif [[ $j -eq 4 ]]; then
-                currColumn=$startx
-                currRow=$(($starty + $currFrame))
-            elif [[ $j -eq 5 ]]; then
-                currColumn=$(($startx - $currFrame))
-                currRow=$(($starty + $currFrame))
-            elif [[ $j -eq 6 ]]; then
-                currColumn=$(($startx - $currFrame))
-                currRow=$starty
-            elif [[ $j -eq 7 ]]; then
-                currColumn=$(($startx - $currFrame))
-                currRow=$((starty - $currFrame))
+        while [ $currIntensity -gt 0 ]; do
+            for ((j = 0; j < 8; j++)); do
+                if [[ $j -eq 0 ]]; then
+                    currColumn=$startx
+                    currRow=$(($starty - $currFrame))
+                elif [[ $j -eq 1 ]]; then
+                    currColumn=$(($startx + $currFrame))
+                    currRow=$(($starty - $currFrame))
+                elif [[ $j -eq 2 ]]; then
+                    currColumn=$(($startx + $currFrame))
+                    currRow=$starty
+                elif [[ $j -eq 3 ]]; then
+                    currColumn=$(($startx + $currFrame))
+                    currRow=$(($starty + $currFrame))
+                elif [[ $j -eq 4 ]]; then
+                    currColumn=$startx
+                    currRow=$(($starty + $currFrame))
+                elif [[ $j -eq 5 ]]; then
+                    currColumn=$(($startx - $currFrame))
+                    currRow=$(($starty + $currFrame))
+                elif [[ $j -eq 6 ]]; then
+                    currColumn=$(($startx - $currFrame))
+                    currRow=$starty
+                elif [[ $j -eq 7 ]]; then
+                    currColumn=$(($startx - $currFrame))
+                    currRow=$((starty - $currFrame))
+                fi
+                drawPixel 1 $currRow $currColumn
+            done
+            if [[ $count -gt 1 ]]; then
+                startx=$(($startx + ($width / $count)))
             fi
-            drawPixel 1 $currRow $currColumn
             if [[ $currFrame -gt 0 ]]; then
-                currIntensity=$(($currIntensity - 1))
-                currFrame=$(($currFrame - 1))
-            fi
-            if [[ $currFrame -eq 0  ]]; then #Need to fix
-                j=0
+                    currIntensity=$(($currIntensity - 1))
+                    currFrame=$(($currFrame - 1))
             fi
         done
-        if [[ $count -gt 1 ]]; then
-            startx=$(($startx + ($width / $count)))
-        fi
         currIntensity=$intensity
         currFrame=$frame
     done

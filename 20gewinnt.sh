@@ -86,6 +86,7 @@ explosionFrame () {
 
     currIntensity=$intensity
     currFrame=$frame
+    currCount=$count
 
     for ((k = $count; k > 0; k--)); do
         while [ $currIntensity -gt 0 ]; do
@@ -117,9 +118,10 @@ explosionFrame () {
                 fi
                 drawPixel 1 $currRow $currColumn
             done
-            if [[ $k -gt 1 ]]; then
+            if [[ $currCount -gt 1 ]]; then
                 startx=$(($startx + ($width / $count)))
                 currIntensity=$intensity
+                currCount=$(($currCount - 1))
             fi
             if [[ $currIntensity -gt 0 ]]; then
                 currIntensity=$(($currIntensity - 1))
@@ -131,6 +133,8 @@ explosionFrame () {
             startx=$(($width / ($count + 1)))
         fi
     done
+
+    currCount=$count
     
     # 0.1s warten
     sleep 0.1

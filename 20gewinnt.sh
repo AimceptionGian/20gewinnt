@@ -53,11 +53,7 @@ feuerwerk () {
         fi
 	done
     for ((i = 0; i < 10; i++)); do
-        explosionFrame 3 $i
-
-        if [[ $count -gt 1 ]]; then
-            startx=$(($width / ($count + 1)))
-        fi        
+        explosionFrame 3 $i      
 
         # 0.1s warten
         sleep 0.1
@@ -127,10 +123,10 @@ explosionFrame () {
                 fi
                 drawPixel 1 $currRow $currColumn
             done
-            if [[ $count -gt 1 ]]; then
+            if [[ $k -gt 1 ]]; then
                 startx=$(($startx + ($width / $count)))
             fi
-            if [[ $currFrame -gt 0 ]]; then
+            if [[ $currIntensity -gt 0 ]]; then
                     currIntensity=$(($currIntensity - 1))
                     currFrame=$(($currFrame - 1))
             fi
